@@ -13,39 +13,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/53508754-033a-4a8b-aa2b-13eae3d1f489";
-      fsType = "btrfs";
-      options = [ "subvol=root" ];
-    };
-
-  boot.initrd.luks.devices."crypted".device = "/dev/disk/by-uuid/b074cb92-d10d-470b-b2b6-3cc30ea32dc0";
-
-  fileSystems."/.swap" =
-    { device = "/dev/disk/by-uuid/53508754-033a-4a8b-aa2b-13eae3d1f489";
-      fsType = "btrfs";
-      options = [ "subvol=swap" ];
-    };
-
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/55C7-DEF3";
-      fsType = "vfat";
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/53508754-033a-4a8b-aa2b-13eae3d1f489";
-      fsType = "btrfs";
-      options = [ "subvol=nix" ];
-    };
-
-  fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/53508754-033a-4a8b-aa2b-13eae3d1f489";
-      fsType = "btrfs";
-      options = [ "subvol=persist" ];
-    };
-
-  swapDevices = [ ];
-
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
