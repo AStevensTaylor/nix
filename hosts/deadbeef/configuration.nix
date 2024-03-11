@@ -12,14 +12,11 @@
     ./hardware-configuration.nix
     ./nvidia.nix
   ];
-  
 
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
-
-
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -49,7 +46,6 @@
     btrfs subvolume create /btrfs_tmp/root
     umount /btrfs_tmp
   '';
-  
 
   fileSystems."/persist".neededForBoot = true;
   environment.persistence."/persist/system" = {
@@ -90,7 +86,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.astevenstaylor = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
     hashedPassword = "$y$j9T$0iL9Zrc3wtKjZaCNH0E3j0$QuRmOyb03XH4B2h7JQNjk6GNZcUHEhQqkPv/Qab2DW6";
   };
 
