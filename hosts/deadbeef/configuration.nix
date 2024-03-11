@@ -86,6 +86,8 @@
     hashedPassword = "$y$j9T$0iL9Zrc3wtKjZaCNH0E3j0$QuRmOyb03XH4B2h7JQNjk6GNZcUHEhQqkPv/Qab2DW6";
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   # environment.systemPackages = with pkgs; [
