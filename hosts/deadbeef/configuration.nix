@@ -46,8 +46,8 @@
     "crypted" = {
       device = "/dev/disk/by-uuid/b074cb92-d10d-470b-b2b6-3cc30ea32dc0";
       preLVM = true;
-    }
-  }
+    };
+  };
 
   fileSystems."/persist".neededForBoot = true;
   environment.persistence."/persist/system" = {
