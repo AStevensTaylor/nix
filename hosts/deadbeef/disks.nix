@@ -17,13 +17,6 @@
               ];
             };
           };
-          swap = {
-            size = "32G";
-            content = {
-              type = "swap";
-              randomEncyption = true;
-            };
-          };
           luks = {
             size = "100%";
             content = {
@@ -49,6 +42,10 @@
                     mountOptions = ["subvol=nix" "noatime"];
                     mountpoint = "/nix";
                   };
+		  "/swap" = {
+		    mountpoint = "/.swap";
+                    swap.swapfile.size = "32G";
+		  };
                 };
               };
             };

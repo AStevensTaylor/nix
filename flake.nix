@@ -64,7 +64,7 @@
         specialArgs = {inherit inputs;};
         modules = [
           inputs.disko.nixosModules.default
-          (import hosts/deadbeef/disko.nix {device = "/dev/disk/by-path/pci-0000:01:00.0-nvme-1";})
+          (import hosts/deadbeef/disks.nix {device = "/dev/nvme0n1";})
 
           hosts/deadbeef/configuration.nix
 
