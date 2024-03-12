@@ -2,8 +2,10 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
-  config,
+  inputs,
+  outputs,
   lib,
+  config,
   pkgs,
   ...
 }: {
@@ -17,6 +19,7 @@
   nix.settings = {
     experimental-features = "nix-command flakes";
     auto-optimise-store = true;
+    trusted-users = ["@wheel"];
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -58,10 +61,6 @@
       "/var/lib/nixos"
     ];
     files = [
-      {
-        file = "/etc/nix/id_rsa";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
-      }
     ];
   };
 
@@ -96,6 +95,7 @@
 
   users.users.ahrent = {
     isNormalUser = true;
+    extraGroups = ["wheel" "networkmanager"];
     hashedPassword = "$y$j9T$LhymJWWUnJBrAWQDwIaSl0$lZ17pdeQhIPKYKPRF8/NaphArqbfDHy9e6Y2MjyxGQB";
   };
 
@@ -103,7 +103,29 @@
     pcscd.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+    ];
+
+    config.allowUnfree = true;
+  };
+
+  # This will add each flake input as a registry
+  # To make nix3 commands consistent with your flake
+  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = ["/etc/nix/path"];
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

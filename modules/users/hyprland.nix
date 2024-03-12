@@ -8,22 +8,18 @@
     ./waybar.nix
   ];
 
-  nix.settings = {
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-  };
-
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
     "$terminal" = "kitty";
+    "$launcher" = "fuzzel";
 
     input = {
       kb_layout = "gb";
     };
 
     bind = [
-      "$mod, space, exec, fuzzel"
-      "$mod, RETURN, exec, kitty"
+      "$mod, space, exec, $launcher"
+      "$mod, RETURN, exec, $terminal"
       "$mod, Q, killactive"
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       "$mod, M, exit"

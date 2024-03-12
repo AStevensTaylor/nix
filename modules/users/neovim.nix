@@ -4,43 +4,33 @@
   lib,
   ...
 }: {
-  nixpkgs.overlays = [
-    inputs.nixneovim.overlays.default
-  ];
-
-  imports = [
-    inputs.nixneovim.nixosModules.homeManager-23-11
-  ];
-
-  programs.nixneovim = {
+  programs.nixvim = {
     enable = true;
+    plugins.lightline.enable = true;
+    colorschemes.gruvbox.enable = true;
 
-    plugins = {
-      lspconfig = {
-        enable = true;
-        servers = {
-          rust-analyzer.enable = true;
-          bashls.enable = true;
-          cssls.enable = true;
-          eslint.enable = true;
-          gopls.enable = true;
-          html.enable = true;
-          jsonls.enable = true;
-          rnix.enable = true;
-          pyright.enable = true;
-          typescript-language-server.enable = true;
-          vuels.enable = true;
-        };
+    options = {
+      number = true;
+      relativenumber = true;
+
+      shiftwidth = 2;
+    };
+
+    plugins.lsp = {
+      enable = true;
+      servers = {
+        nil_ls.enable = true;
       };
-      treesitter = {
-        enable = true;
-        indent = true;
-      };
-      mini = {
-        enable = true;
-        ai.enable = true;
-        jump.enable = true;
-      };
+    };
+
+    plugins.cmp = {
+      enable = true;
+      autoEnableSources = true;
+      settings.sources = [
+        {name = "nvim_lsp";}
+        {name = "path";}
+        {name = "buffer";}
+      ];
     };
   };
 }

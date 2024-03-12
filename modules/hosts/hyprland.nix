@@ -1,11 +1,12 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   nix.settings = {
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    trusted-substituters = ["https://cache.nixos.org/?priority=40" "https://hyprland.cachix.org?priority=50"];
+    trusted-public-keys = lib.mkBefore ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
   };
 
   programs.hyprland = {

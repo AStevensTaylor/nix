@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +22,13 @@
       url = "github:hyprwm/Hyprland";
     };
 
-    nixneovim.url = "github:nixneovim/nixneovim";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
+      # url = "github:nix-community/nixvim/nixos-23.05";
+
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -68,7 +72,7 @@
 
     nixosConfigurations = {
       deadbeef = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs outputs;};
         modules = [
           inputs.disko.nixosModules.default
           (import hosts/deadbeef/disks.nix {device = "/dev/nvme0n1";})
@@ -80,35 +84,51 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+
+            # home-manager.users.astevenstaylor = import ./users/astevenstaylor;
+            # home-manager.users.ahrent = import ./users/ahrent;
           }
 
           inputs.impermanence.nixosModules.impermanence
+          {
+            nix.settings = {
+              trusted-substituters = ["https://hyprland.cachix.org?priority=50"];
+              trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+            };
+          }
 
           inputs.hyprland.nixosModules.default
-          {programs.hyprland.enable = true;}
         ];
       };
     };
 
     homeConfigurations = {
-      "astevenstaylor@deadbeef" = inputs.home-manager.lib.homeManagerConfiguration {
+      "astevenstaylor" = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
         extraSpecialArgs = {inherit inputs outputs;};
 
         modules = [
-          {
-            nix.settings = {
-              substituters = ["https://hyprland.cachix.org"];
-              trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-            };
-          }
-
+          inputs.nixvim.homeManagerModules.nixvim
           inputs.hyprland.homeManagerModules.default
           {
             wayland.windowManager.hyprland.enable = true;
           }
-          users/astevenstaylor/default.nix
+          ./users/astevenstaylor
+        ];
+      };
+      "ahrent" = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+
+        extraSpecialArgs = {inherit inputs outputs;};
+
+        modules = [
+          inputs.nixvim.homeManagerModules.nixvim
+          inputs.hyprland.homeManagerModules.default
+          {
+            wayland.windowManager.hyprland.enable = true;
+          }
+          ./users/ahrent
         ];
       };
     };
