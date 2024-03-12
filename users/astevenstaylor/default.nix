@@ -8,6 +8,7 @@
 }: {
   imports = [
     ../../modules/users/hyprland.nix
+    ../../modules/users/nixpkgs.overlay.nix
   ];
 
   programs.home-manager.enable = true;
@@ -20,6 +21,7 @@
     wl-screenrec
     wlr-randr
     fuzzel
+    neovide
     #gnome.nautilus
     (
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
