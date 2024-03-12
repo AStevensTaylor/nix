@@ -1,11 +1,4 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  outputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
@@ -23,7 +16,6 @@
     wlr-randr
     fuzzel
     neovide
-    #gnome.nautilus
     (
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
@@ -50,7 +42,7 @@
     username = "astevenstaylor";
     homeDirectory = "/home/astevenstaylor";
 
-    sessionVariables = rec {
+    sessionVariables = {
       WLR_NO_HARDWARE_CURSORS = "1";
       XCURSOR_SIZE = "24";
       QT_QPA_PLATFORMTHEME = "qt5ct";
