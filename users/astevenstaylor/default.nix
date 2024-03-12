@@ -14,7 +14,6 @@
     wl-clipboard
     wl-screenrec
     wlr-randr
-    fuzzel
     neovide
     (
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}

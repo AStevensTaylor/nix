@@ -1,17 +1,17 @@
 {
-  config,
-  lib,
   pkgs,
   ...
 }: {
   imports = [
     ./waybar.nix
+    ./notifications.nix
+    ./launcher.nix
   ];
 
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
     "$terminal" = "kitty";
-    "$launcher" = "fuzzel";
+    "$launcher" = "rofi";
 
     input = {
       kb_layout = "gb";
