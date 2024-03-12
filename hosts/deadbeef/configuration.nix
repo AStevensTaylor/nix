@@ -60,6 +60,7 @@
       "/var/lib/nixos"
     ];
     files = [
+      { file = "/etc/nix/id_rsa"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
     ];
   };
 
@@ -100,7 +101,7 @@
     isNormalUser = true;
     hashedPassword = "$y$j9T$LhymJWWUnJBrAWQDwIaSl0$lZ17pdeQhIPKYKPRF8/NaphArqbfDHy9e6Y2MjyxGQB";
   };
-  
+
   programs.hyprland.enable = true;
 
   services = {
@@ -110,8 +111,8 @@
       enable = true;
       settings = {
         default_session = {
-	  command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-	};
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        };
       };
     };
   };

@@ -1,6 +1,17 @@
-{inputs, lib, config, pkgs, outputs, ...}: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  outputs,
+  ...
+}: {
+  imports = [
+    ../../modules/users/hyprland.nix
+  ];
+
   programs.home-manager.enable = true;
-  programs.vscode.enable=true;
+  programs.vscode.enable = true;
   home.packages = with pkgs; [
     jq
     kubectl
@@ -11,21 +22,19 @@
     fuzzel
     #gnome.nautilus
     (
-      nerdfonts.override { fonts = ["FiraCode" "DroidSansMono"];}
+      nerdfonts.override {fonts = ["FiraCode" "DroidSansMono"];}
     )
   ];
-  programs.waybar = {
-    enable = true;
-    systemd.enable = true;
-  };
 
   programs.git = {
     enable = true;
     userEmail = "git@stevenstaylor.dev";
-    userName  = "Ahren Stevens-Taylor";
+    userName = "Ahren Stevens-Taylor";
   };
 
-  programs.brave.enable = true;
+  programs.brave = {
+    enable = true;
+  };
 
   services.ssh-agent.enable = true;
   programs.ssh.enable = true;
@@ -35,7 +44,17 @@
     homeDirectory = "/home/astevenstaylor";
 
     sessionVariables = rec {
-      WLR_NO_HARDWARE_CURSORS="1";
+      WLR_NO_HARDWARE_CURSORS = "1";
+      XCURSOR_SIZE = "24";
+      QT_QPA_PLATFORMTHEME = "qt5ct";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+
+      GBM_BACKEND = "nvidia-drm";
+      MOZ_ENABLE_WAYLAND = "1";
+      LIBVA_DRIVER_NAME = "nvidia";
+      XDG_SESSION_TYPE = "wayland";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     };
     pointerCursor = {
       gtk.enable = true;
@@ -63,73 +82,14 @@
     };
   };
 
-  wayland.windowManager.hyprland.settings = {
-    "$mod" = "SUPER";
-    "$terminal" = "kitty";
 
-    
-    input = {
-      kb_layout = "gb";  
-    };
 
-    bind = [
-      "$mod, space, exec, fuzzel"
-      "$mod, RETURN, exec, kitty"
-      "$mod, Q, killactive"
-      # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-      "$mod, Q, exec, $terminal"
-      "$mod, M, exit"
-# Move focus with mainMod + arrow keys
-"$mod, left, movefocus, l"
-"$mod, right, movefocus, r"
-"$mod, up, movefocus, u"
-"$mod, down, movefocus, d"
-
-# Switch workspaces with mainMod + [0-9]
-"$mod, 1, workspace, 1"
-"$mod, 2, workspace, 2"
-"$mod, 3, workspace, 3"
-"$mod, 4, workspace, 4"
-"$mod, 5, workspace, 5"
-"$mod, 6, workspace, 6"
-"$mod, 7, workspace, 7"
-"$mod, 8, workspace, 8"
-"$mod, 9, workspace, 9"
-"$mod, 0, workspace, 10"
-
-# Move active window to a workspace with mainMod + SHIFT + [0-9]
-"$mod SHIFT, 1, movetoworkspace, 1"
-"$mod SHIFT, 2, movetoworkspace, 2"
-"$mod SHIFT, 3, movetoworkspace, 3"
-"$mod SHIFT, 4, movetoworkspace, 4"
-"$mod SHIFT, 5, movetoworkspace, 5"
-"$mod SHIFT, 6, movetoworkspace, 6"
-"$mod SHIFT, 7, movetoworkspace, 7"
-"$mod SHIFT, 8, movetoworkspace, 8"
-"$mod SHIFT, 9, movetoworkspace, 9"
-"$mod SHIFT, 0, movetoworkspace, 10"
-
-# Example special workspace (scratchpad)
-"$mod, S, togglespecialworkspace, magic"
-"$mod SHIFT, S, movetoworkspace, special:magic"
-
-# Scroll through existing workspaces with mainMod + scroll
-"$mod, mouse_down, workspace, e+1"
-"$mod, mouse_up, workspace, e-1"
-    ];
-# Move/resize windows with mainMod + LMB/RMB and dragging
-bindm = [
-  "$mod, mouse:272, movewindow"
-  "$mod, mouse:273, resizewindow"
-
-    ];
-  };
-  
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _:true;
 
-
   nix.package = pkgs.nix;
+  nix.settings.experimental-features = "nix-command flakes";
+
 
   systemd.user.startServices = "sd-switch";
 
