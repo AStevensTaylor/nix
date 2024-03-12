@@ -23,6 +23,8 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+
+    nixneovim.url = "github:nixneovim/nixneovim";
   };
 
   outputs = {
@@ -58,7 +60,7 @@
         };
     });
 
-         # Your custom packages and modifications, exported as overlays
+    # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
 
     # Set a formatter

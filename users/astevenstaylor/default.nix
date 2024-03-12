@@ -9,6 +9,7 @@
   imports = [
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
+    ../../modules/users/neovim.nix
   ];
 
   programs.home-manager.enable = true;
