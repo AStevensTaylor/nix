@@ -58,6 +58,9 @@
         };
     });
 
+         # Your custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit inputs;};
+
     # Set a formatter
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
