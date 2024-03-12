@@ -48,6 +48,7 @@
         openOnSetup = true;
         reloadOnBufenter = true;
       };
+      fugitive.enable = true;
       cmp-git.enable = true;
       cmp-nvim-lsp.enable = true;
       gitgutter.enable = true;
