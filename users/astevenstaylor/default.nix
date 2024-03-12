@@ -22,7 +22,7 @@
     fuzzel
     #gnome.nautilus
     (
-      nerdfonts.override {fonts = ["FiraCode" "DroidSansMono"];}
+      nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
   ];
 
@@ -34,6 +34,10 @@
 
   programs.brave = {
     enable = true;
+    commandLineArgs = [
+      "--enable-features=UseOzonePlatform"
+      "--ozone-platform=wayland"
+    ];
   };
 
   services.ssh-agent.enable = true;
@@ -82,14 +86,11 @@
     };
   };
 
-
-
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = _:true;
 
   nix.package = pkgs.nix;
   nix.settings.experimental-features = "nix-command flakes";
-
 
   systemd.user.startServices = "sd-switch";
 

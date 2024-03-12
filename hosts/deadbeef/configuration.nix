@@ -11,12 +11,10 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./nvidia.nix
+    ../../modules/hosts/hyprland.nix
   ];
 
   nix.settings = {
-    substituters = ["https://hyprland.cachix.org"];
-    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
-
     experimental-features = "nix-command flakes";
     auto-optimise-store = true;
   };
@@ -60,12 +58,11 @@
       "/var/lib/nixos"
     ];
     files = [
-      { file = "/etc/nix/id_rsa"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
+      {
+        file = "/etc/nix/id_rsa";
+        parentDirectory = {mode = "u=rwx,g=,o=";};
+      }
     ];
-  };
-
-  environment.sessionVariables = rec {
-    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   networking.hostName = "deadbeef"; # Define your hostname.
@@ -102,19 +99,8 @@
     hashedPassword = "$y$j9T$LhymJWWUnJBrAWQDwIaSl0$lZ17pdeQhIPKYKPRF8/NaphArqbfDHy9e6Y2MjyxGQB";
   };
 
-  programs.hyprland.enable = true;
-
   services = {
     pcscd.enable = true;
-
-    greetd = {
-      enable = true;
-      settings = {
-        default_session = {
-          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        };
-      };
-    };
   };
 
   nixpkgs.config.allowUnfree = true;
