@@ -16,6 +16,9 @@
   nix.settings = {
     substituters = ["https://hyprland.cachix.org"];
     trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+
+    experimental-features = "nix-command flakes";
+    auto-optimise-store = true;
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -57,8 +60,11 @@
       "/var/lib/nixos"
     ];
     files = [
-      "/etc/machine-id"
     ];
+  };
+
+  environment.sessionVariables = rec {
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   networking.hostName = "deadbeef"; # Define your hostname.
@@ -88,6 +94,26 @@
     isNormalUser = true;
     extraGroups = ["wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
     hashedPassword = "$y$j9T$0iL9Zrc3wtKjZaCNH0E3j0$QuRmOyb03XH4B2h7JQNjk6GNZcUHEhQqkPv/Qab2DW6";
+  };
+
+  users.users.ahrent = {
+    isNormalUser = true;
+    hashedPassword = "$y$j9T$LhymJWWUnJBrAWQDwIaSl0$lZ17pdeQhIPKYKPRF8/NaphArqbfDHy9e6Y2MjyxGQB";
+  };
+  
+  programs.hyprland.enable = true;
+
+  services = {
+    pcscd.enable = true;
+
+    greetd = {
+      enable = true;
+      settings = {
+        default_session = {
+	  command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+	};
+      };
+    };
   };
 
   nixpkgs.config.allowUnfree = true;

@@ -68,7 +68,7 @@
 
           hosts/deadbeef/configuration.nix
 
-          inputs.home-manager.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
           inputs.impermanence.nixosModules.impermanence
 
           inputs.hyprland.nixosModules.default
@@ -77,12 +77,12 @@
       };
     };
 
-    homeConfigurations = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    homeConfigurations = {
       "astevenstaylor@deadbeef" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        
+        extraSpecialArgs = { inherit inputs outputs; };
+         
         modules = [
           {
             nix.settings = {
@@ -98,6 +98,6 @@
           users/astevenstaylor/default.nix
         ];
       };
-    });
+    };
   };
 }
