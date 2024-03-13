@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
@@ -19,6 +23,43 @@
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
   ];
+
+  programs.hyprlock = {
+    enable = true;
+    backgrounds = [
+      {
+        monitor = "DP-3";
+        path = "${config.home.homeDirectory}/.local/share/wallpapers/9dad0f220de297eac617e9f5463eae31d5957853.png";
+      }
+      {
+        monitor = "DP-1";
+        path = "${config.home.homeDirectory}/.local/share/wallpapers/9dad0f220de297eac617e9f5463eae31d5957853.png";
+      }
+    ];
+    input-fields = [
+      {
+        monitor = "DP-3";
+        size = {
+          width = 800;
+          height = 30;
+        };
+        outline_thickness = 4;
+        capslock_color = "rgba(249, 113, 65, 0.5)";
+      }
+    ];
+  };
+
+  services.hyprpaper = {
+    enable = true;
+    preloads = [
+      "${config.home.homeDirectory}/.local/share/wallpapers/9dad0f220de297eac617e9f5463eae31d5957853.png"
+    ];
+
+    wallpapers = [
+      "DP-1,${config.home.homeDirectory}/.local/share/wallpapers/9dad0f220de297eac617e9f5463eae31d5957853.png"
+      "DP-3,${config.home.homeDirectory}/.local/share/wallpapers/9dad0f220de297eac617e9f5463eae31d5957853.png"
+    ];
+  };
 
   programs.git = {
     enable = true;

@@ -6,6 +6,8 @@
     ./polkit-agent.nix
   ];
 
+  services.cliphist.enable = true;
+
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
     "$terminal" = "kitty";
@@ -22,6 +24,11 @@
       "$mod, Q, killactive"
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       "$mod, M, exit"
+      "$mod, L, exec, hyprlock"
+
+      # Clipboard
+      "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+
       # Move focus with mainMod + arrow keys
       "$mod, left, movefocus, l"
       "$mod, right, movefocus, r"

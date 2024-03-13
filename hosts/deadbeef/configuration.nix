@@ -6,6 +6,7 @@
   outputs,
   lib,
   config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -15,6 +16,11 @@
     ../../modules/hosts/hyprland.nix
     ../../modules/hosts/cloudflare-warp.nix
   ];
+
+  programs.ssh = {
+    startAgent = true;
+    agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
+  };
 
   nix.settings = {
     experimental-features = "nix-command flakes";
@@ -31,30 +37,30 @@
     "resume_offset=533760"
   ];
 
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /btrfs_tmp
-    mount /dev/root_vg/root /btrfs_tmp
-    if [[ -e /btrfs_tmp/root ]]; then
-        mkdir -p /btrfs_tmp/old_roots
-        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
-        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
-    fi
-
-    delete_subvolume_recursively() {
-        IFS=$'\n'
-        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-            delete_subvolume_recursively "/btrfs_tmp/$i"
-        done
-        btrfs subvolume delete "$1"
-    }
-
-    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
-        delete_subvolume_recursively "$i"
-    done
-
-    btrfs subvolume create /btrfs_tmp/root
-    umount /btrfs_tmp
-  '';
+  #  boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #    mkdir /btrfs_tmp
+  #    mount /dev/root_vg/root /btrfs_tmp
+  #    if [[ -e /btrfs_tmp/root ]]; then
+  #        mkdir -p /btrfs_tmp/old_roots
+  #        timestamp=$(date --date="@$(stat -c %Y /btrfs_tmp/root)" "+%Y-%m-%-d_%H:%M:%S")
+  #        mv /btrfs_tmp/root "/btrfs_tmp/old_roots/$timestamp"
+  #    fi
+  #
+  #    delete_subvolume_recursively() {
+  #        IFS=$'\n'
+  #        for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
+  #            delete_subvolume_recursively "/btrfs_tmp/$i"
+  #        done
+  #        btrfs subvolume delete "$1"
+  #    }
+  #
+  #    for i in $(find /btrfs_tmp/old_roots/ -maxdepth 1 -mtime +30); do
+  #        delete_subvolume_recursively "$i"
+  #    done
+  #
+  #    btrfs subvolume create /btrfs_tmp/root
+  #    umount /btrfs_tmp
+  #  '';
 
   fileSystems."/persist".neededForBoot = true;
   environment.persistence."/persist/system" = {
@@ -89,7 +95,7 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.astevenstaylor = {

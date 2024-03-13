@@ -22,6 +22,18 @@
       url = "github:hyprwm/Hyprland";
     };
 
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+    };
+
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+    };
+
+    hyprpaper = {
+      url = "github:hyprwm/hyprpaper";
+    };
+
     nixvim = {
       url = "github:nix-community/nixvim";
       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
@@ -88,6 +100,9 @@
             # home-manager.users.astevenstaylor = import ./users/astevenstaylor;
             # home-manager.users.ahrent = import ./users/ahrent;
           }
+          {
+            security.pam.services.hyprlock = {};
+          }
 
           inputs.impermanence.nixosModules.impermanence
           {
@@ -111,6 +126,8 @@
         modules = [
           inputs.nixvim.homeManagerModules.nixvim
           inputs.hyprland.homeManagerModules.default
+          inputs.hyprlock.homeManagerModules.default
+          inputs.hyprpaper.homeManagerModules.default
           {
             wayland.windowManager.hyprland.enable = true;
           }
@@ -125,6 +142,8 @@
         modules = [
           inputs.nixvim.homeManagerModules.nixvim
           inputs.hyprland.homeManagerModules.default
+          inputs.hyprlock.homeManagerModules.default
+          inputs.hyprpaper.homeManagerModules.default
           {
             wayland.windowManager.hyprland.enable = true;
           }

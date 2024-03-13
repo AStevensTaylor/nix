@@ -4,6 +4,11 @@
     plugins.lightline.enable = true;
     colorschemes.onedark.enable = true;
 
+    viAlias = true;
+    vimAlias = true;
+
+    clipboard.providers.wl-copy.enable = true;
+
     options = {
       number = true;
       relativenumber = true;
@@ -15,6 +20,13 @@
       enable = true;
       servers = {
         nil_ls.enable = true;
+        phpactor.enable = true;
+        pyright.enable = true;
+        yamlls.enable = true;
+        eslint.enable = true;
+        cssls.enable = true;
+        vuels.enable = true;
+        tsserver.enable = true;
       };
     };
 
@@ -38,6 +50,9 @@
     };
 
     plugins = {
+      image.enable = true;
+      nix.enable = true;
+      copilot-vim.enable = true;
       auto-save.enable = true;
       telescope.enable = true;
       oil.enable = true;
