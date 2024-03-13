@@ -3,6 +3,7 @@
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
     ../../modules/users/neovim.nix
+    ../../modules/users/ssh.nix
   ];
 
   programs.home-manager.enable = true;
@@ -37,9 +38,6 @@
   programs.firefox = {
     enable = true;
   };
-
-  services.ssh-agent.enable = true;
-  programs.ssh.enable = true;
 
   home = {
     username = "astevenstaylor";
