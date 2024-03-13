@@ -1,24 +1,23 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./waybar.nix
     ./notifications.nix
     ./launcher.nix
+    ./polkit-agent.nix
   ];
 
   wayland.windowManager.hyprland.settings = {
     "$mod" = "SUPER";
     "$terminal" = "kitty";
-    "$launcher" = "rofi";
+    "$launcher" = "rofi -show";
 
     input = {
       kb_layout = "gb";
     };
 
     bind = [
-      "$mod, space, exec, $launcher"
+      "$mod, space, exec, $launcher drun"
+      "$mod, TAB, exec, $launcher window"
       "$mod, RETURN, exec, $terminal"
       "$mod, Q, killactive"
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more

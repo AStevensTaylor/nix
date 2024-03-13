@@ -1,7 +1,6 @@
 {pkgs, ...}: {
-  
   systemd.services.warp-svc = {
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = ["multi-user.target"];
   };
   systemd.packages = [
     pkgs.cloudflare-warp

@@ -1,11 +1,4 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  outputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
@@ -21,9 +14,7 @@
     wl-clipboard
     wl-screenrec
     wlr-randr
-    fuzzel
     neovide
-    #gnome.nautilus
     (
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
@@ -31,7 +22,7 @@
 
   programs.git = {
     enable = true;
-    userEmail = "git@stevenstaylor.dev";
+    userEmail = "ahrent@packt.com";
     userName = "Ahren Stevens-Taylor";
   };
 
@@ -43,6 +34,10 @@
     ];
   };
 
+  programs.firefox = {
+    enable = true;
+  };
+
   services.ssh-agent.enable = true;
   programs.ssh.enable = true;
 
@@ -50,7 +45,7 @@
     username = "ahrent";
     homeDirectory = "/home/ahrent";
 
-    sessionVariables = rec {
+    sessionVariables = {
       WLR_NO_HARDWARE_CURSORS = "1";
       XCURSOR_SIZE = "24";
       QT_QPA_PLATFORMTHEME = "qt5ct";

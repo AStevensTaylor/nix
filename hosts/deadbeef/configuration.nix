@@ -25,7 +25,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  
+
   boot.resumeDevice = "/dev/disk/by-uuid/53508754-033a-4a8b-aa2b-13eae3d1f489";
   boot.kernelParams = [
     "resume_offset=533760"
