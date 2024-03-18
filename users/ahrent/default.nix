@@ -1,20 +1,19 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   imports = [
+    inputs.home-manager.nixosModules.home-manager
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
     ../../modules/users/neovim.nix
   ];
 
   programs.home-manager.enable = true;
-  programs.vscode.enable = true;
   home.packages = with pkgs; [
-    jq
     kubectl
-    kitty
     wl-clipboard
     wl-screenrec
     wlr-randr
@@ -23,6 +22,31 @@
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
   ];
+
+  programs.kitty = {
+    enable = true;
+
+  };
+
+  programs.starship = {
+    enable = true;
+  };
+
+  programs.lsd = {
+    enable = true;
+  };
+
+
+
+  programs.yazi = {
+    enable = true;
+  };
+
+  programs.jq = {
+    enable = true;
+  };
+
+
 
   programs.hyprlock = {
     enable = true;
@@ -67,20 +91,13 @@
     userName = "Ahren Stevens-Taylor";
   };
 
-  programs.brave = {
-    enable = true;
-    commandLineArgs = [
-      "--enable-features=UseOzonePlatform"
-      "--ozone-platform=wayland"
-    ];
-  };
-
   programs.firefox = {
     enable = true;
   };
 
-  services.ssh-agent.enable = true;
-  programs.ssh.enable = true;
+  services.flameshot = {
+    enable = true;
+  };
 
   home = {
     username = "ahrent";

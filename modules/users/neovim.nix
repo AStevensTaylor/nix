@@ -1,4 +1,11 @@
-{...}: {
+{
+  pkgs,
+  ...
+}: {
+
+  home.packages = [
+    pkgs.ripdrag
+  ];
   programs.nixvim = {
     enable = true;
     plugins.lightline.enable = true;
