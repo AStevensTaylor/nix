@@ -26,6 +26,9 @@
       "$mod, M, exit"
       "$mod, L, exec, hyprlock"
 
+      ", Print , exec, grimblast copy area"
+      "SHIFT, Print, exec, grimblast copy screen"
+
       # Clipboard
       "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
@@ -76,6 +79,7 @@
 
   home.packages = with pkgs; [
     libva
+    grimblast
   ];
 
   home.sessionVariables = rec {

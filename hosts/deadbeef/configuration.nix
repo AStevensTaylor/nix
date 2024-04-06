@@ -18,7 +18,7 @@
   ];
 
   programs.ssh = {
-    startAgent = true;
+    startAgent = false;
     agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
   };
 
@@ -36,6 +36,8 @@
   boot.kernelParams = [
     "resume_offset=533760"
   ];
+
+  boot.supportedFilesystems = ["ntfs"];
 
   #  boot.initrd.postDeviceCommands = lib.mkAfter ''
   #    mkdir /btrfs_tmp
@@ -96,6 +98,9 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.astevenstaylor = {

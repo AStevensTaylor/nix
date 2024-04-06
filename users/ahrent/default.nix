@@ -1,11 +1,9 @@
 {
   pkgs,
   config,
-  inputs,
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
     ../../modules/users/hyprland.nix
     ../../modules/users/nixpkgs.overlay.nix
     ../../modules/users/neovim.nix
@@ -17,15 +15,20 @@
     wl-clipboard
     wl-screenrec
     wlr-randr
+    obsidian
     neovide
+    beekeeper-studio
+    yubioath-flutter
+    vscodium
     (
       nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"];}
     )
+    direnv
+    zoom-us
   ];
 
   programs.kitty = {
     enable = true;
-
   };
 
   programs.starship = {
@@ -36,8 +39,6 @@
     enable = true;
   };
 
-
-
   programs.yazi = {
     enable = true;
   };
@@ -45,8 +46,6 @@
   programs.jq = {
     enable = true;
   };
-
-
 
   programs.hyprlock = {
     enable = true;
@@ -93,6 +92,26 @@
 
   programs.firefox = {
     enable = true;
+
+    profiles = {
+      default = {
+        name = "Work";
+        containers = {
+          work = {
+            id = 0;
+            color = "purple";
+            name = "Work";
+            icon = "briefcase";
+          };
+          admin = {
+            id = 1;
+            color = "red";
+            name = "Admin";
+            icon = "fence";
+          };
+        };
+      };
+    };
   };
 
   services.flameshot = {
