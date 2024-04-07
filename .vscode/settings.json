@@ -1,5 +1,5 @@
 {
-    "nix.enableLanguageServer": false,
+    "nix.enableLanguageServer": true,
     "nix.serverSettings": {
         // settings for 'nixd' LSP
         "nixd": {
@@ -16,14 +16,13 @@
                     "args": [],
                     // NixOS options
                     "installable": "<flakeref>#nixosConfigurations.<name>.options"
-
                     // Flake-parts options
                     // "installable": "<flakeref>#debug.options"
-
                     // Home-manager options
                     // "installable": "<flakeref>#homeConfigurations.<name>.options"
                 }
             }
         }
-  }
+    },
+    "nix.serverPath": "nixd"
 }

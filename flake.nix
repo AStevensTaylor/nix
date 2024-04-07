@@ -68,8 +68,8 @@
           nativeBuildInputs = with pkgs; [
             bashInteractive
             git
-            age
-            age-plugin-yubikey
+            nixd
+            direnv
           ];
           shellHook = with pkgs; ''
             export EDITOR="code -w"
