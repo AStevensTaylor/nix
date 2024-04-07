@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    flake-compat = {
+      url = "github:inclyc/flake-compat";
+      flake = false;
+    };
+
     impermanence = {
       url = "github:nix-community/impermanence";
     };
